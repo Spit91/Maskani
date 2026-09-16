@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
@@ -26,7 +27,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    onPropertyClick: (Int) -> Unit
+) {
     var SearchText by remember { mutableStateOf("") }
     Column (
         modifier = Modifier.padding(40.dp)
@@ -93,7 +96,51 @@ fun HomeScreen() {
             Spacer(
                 modifier = Modifier.height(10.dp)
             )
-            PropertyCard()
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+
+            ) {
+                item{
+                    PropertyCard(
+                        propertyId = 1,
+                        image = R.drawable.modern_apartment,
+                        name = "Neema Heights",
+                        location = "Kilimani, Nairobi",
+                        category = "Two Bedroom",
+                        price = "Ksh 45,000",
+                        onClick = {
+                          onPropertyClick(1)
+                        }
+                    )
+                }
+                item{
+                    PropertyCard(
+                        propertyId = 2,
+                       image =  R.drawable.modern_apartment4,
+                        name = "Glory Heights",
+                        location = "Kasarani, Nairobi",
+                        category = "one bedroom",
+                        price = "Ksh 22,000",
+                        onClick = {
+                            onPropertyClick(2)
+                        }
+                    )
+                }
+                item{
+                    PropertyCard(
+                        propertyId = 3,
+                        image = R.drawable.modern_apartment3,
+                        name = "Value Link Apartment",
+                        location = "Muthaiga, Nairobi",
+                        category = "one bedroom",
+                        price = "Ksh 28,000",
+                        onClick = {
+                            onPropertyClick(3)
+                        }
+                    )
+                }
+            }
+
 
 
         }

@@ -1,6 +1,5 @@
 package com.spit91.maskani
 
-import android.R.attr.contentDescription
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -8,7 +7,10 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -20,12 +22,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.BlendMode.Companion.Screen
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.composable
 import com.spit91.maskani.ui.theme.Mskani1Theme
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Person
-
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -43,12 +46,31 @@ class MainActivity : ComponentActivity() {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MaskaniApp(){
+    val navController = rememberNavController()
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
             MaskaniBottomBar ()
         }
     ) {
+        NavHost(
+            navController = navController,
+            startDestination = Screen.Home.route
+
+        ) {
+            composable(Screen.Home.route) {
+                HomeScreen(
+                    onPropertyClick = {propertyId ->
+                        navController.navigate("property/$propertyId")
+                    }
+                )
+            }
+            composable(Screen.PropertyDetails.route) {
+                PropertyDetailsScreen()
+            }
+
+        }
+
 
     }
 }
