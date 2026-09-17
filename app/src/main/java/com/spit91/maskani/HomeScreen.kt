@@ -31,8 +31,9 @@ fun HomeScreen(
     onPropertyClick: (Int) -> Unit
 ) {
     var SearchText by remember { mutableStateOf("") }
+
     Column (
-        modifier = Modifier.padding(40.dp)
+        modifier = Modifier.padding(20.dp)
     ) {
         Text(
             text = "Maskani",
@@ -51,22 +52,7 @@ fun HomeScreen(
             modifier = Modifier.height(10.dp)
         )
 
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(16.dp),
-            value = SearchText,
-            onValueChange = {
-                 SearchText = it },
-            placeholder = { Text("Search for a place") },
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = "Search"
-                )
 
-            }
-
-        )
         Spacer(
             modifier = Modifier.height(10.dp)
         )
@@ -84,6 +70,15 @@ fun HomeScreen(
             )
 
         }
+        Spacer(
+            modifier = Modifier.height(10.dp)
+        )
+        MaskaniSearchBar(
+            SearchText = SearchText,
+            onSearch = {
+                SearchText = it
+            }
+        )
         Spacer(
             modifier = Modifier.height(10.dp)
         )
@@ -146,5 +141,29 @@ fun HomeScreen(
         }
 
     }
+
+}
+@Composable
+fun MaskaniSearchBar(
+    SearchText: String,
+    onSearch: (String) -> Unit
+){
+    OutlinedTextField(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        value = SearchText,
+        onValueChange = {
+            onSearch(it) },
+        placeholder = { Text("Search for a place") },
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Default.Search,
+                contentDescription = "Search"
+            )
+
+        }
+
+    )
+
 }
 
