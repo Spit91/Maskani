@@ -1,5 +1,5 @@
 package com.spit91.maskani
-
+import com.spit91.maskani.Screen
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -22,7 +22,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.BlendMode.Companion.Screen
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -55,17 +54,17 @@ fun MaskaniApp(){
     ) {
         NavHost(
             navController = navController,
-            startDestination = Screen.Home.route
+            startDestination = Screen.Home
 
         ) {
-            composable(Screen.Home.route) {
+            composable <Screen.Home> {
                 HomeScreen(
                     onPropertyClick = {propertyId ->
-                        navController.navigate("property/$propertyId")
+                        navController.navigate(Screen.PropertyDetails(propertyId))
                     }
                 )
             }
-            composable(Screen.PropertyDetails.route) {
+            composable <Screen.PropertyDetails >{
                 PropertyDetailsScreen()
             }
 
@@ -74,6 +73,8 @@ fun MaskaniApp(){
 
     }
 }
+
+
 
 @Composable
 fun MaskaniBottomBar() {
