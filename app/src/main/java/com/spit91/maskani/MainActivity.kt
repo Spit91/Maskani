@@ -28,6 +28,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
 import com.spit91.maskani.ui.theme.Mskani1Theme
+import androidx.navigation.toRoute
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -64,8 +65,12 @@ fun MaskaniApp(){
                     }
                 )
             }
-            composable <Screen.PropertyDetails >{
-                PropertyDetailsScreen()
+            composable <Screen.PropertyDetails >{ backStackEntry ->
+
+                val propertyId = backStackEntry.toRoute<Screen.PropertyDetails>()
+                PropertyDetailsScreen(
+                    propertyId = propertyId.propertyId
+                )
             }
 
         }
@@ -142,12 +147,4 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
         text = "Hello $name!",
         modifier = modifier
     )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    Mskani1Theme {
-        Greeting("Android")
-    }
 }

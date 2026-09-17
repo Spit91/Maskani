@@ -25,7 +25,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 
+
+val Poppins =FontFamily(
+    Font(R.font.poppins_regular),
+    Font(R.font.poppins_bold),
+    Font(R.font.poppins_bold, FontWeight.Bold)
+)
 @Composable
 fun HomeScreen(
     onPropertyClick: (Int) -> Unit
@@ -33,12 +41,17 @@ fun HomeScreen(
     var SearchText by remember { mutableStateOf("") }
 
     Column (
-        modifier = Modifier.padding(20.dp)
+        modifier = Modifier.padding(
+            top = 45.dp,
+            start = 8.dp,
+            end = 8.dp
+        )
     ) {
         Text(
             text = "Maskani",
             color = MaterialTheme.colorScheme.primary,
             fontSize = 28.sp,
+            fontFamily = Poppins,
             fontWeight = FontWeight.Bold,
             style = MaterialTheme.typography.headlineMedium
         )
@@ -46,6 +59,8 @@ fun HomeScreen(
             modifier = Modifier.height(4.dp)
         )
         Text(
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.primary,
             text = "Find your next home"
         )
         Spacer(
