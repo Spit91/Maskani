@@ -1,150 +1,51 @@
 package com.spit91.maskani
-import com.spit91.maskani.Screen
-import android.annotation.SuppressLint
+
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.compose.composable
-import com.spit91.maskani.ui.theme.Mskani1Theme
-import androidx.navigation.toRoute
+import com.spit91.maskani.presentation.auth.SignInScreen
+import com.spit91.maskani.presentation.auth.SignInViewModel
+import dagger.hilt.android.EntryPointAccessors
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+
+    // 1. INJECT VIEWMODEL: Hilt automatically creates and binds the ViewModel lifecycle for us
+    private val signInViewModel: SignInViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+
         setContent {
-            Mskani1Theme {
-               MaskaniApp()
+            // Apply your application's global design theme wrapper
+            MaterialTheme {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    // 2. RENDER THE SCREEN: Inject the brain and pass the success callback logic
+                    SignInScreen(
+                        viewModel = signInViewModel,
+                        onAuthSuccess = {
+                            // Temporary action to prove authentication succeeded!
+                            Toast.makeText(
+                                this@MainActivity,
+                                "Welcome to Maskani! Login Successful.",
+                                Toast.LENGTH_LONG
+                            ).show()
+
+                            // Todo: In the next module, we will replace this toast with official Compose Navigation to your Property Feed Screen!
+                        }
+                    )
+                }
             }
         }
     }
-}
-
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@Composable
-fun MaskaniApp(){
-    val navController = rememberNavController()
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        bottomBar = {
-            MaskaniBottomBar ()
-        }
-    ) {
-        NavHost(
-            navController = navController,
-            startDestination = Screen.Home
-
-        ) {
-            composable <Screen.Home> {
-                HomeScreen(
-                    onPropertyClick = {propertyId ->
-                        navController.navigate(Screen.PropertyDetails(propertyId))
-                    }
-                )
-            }
-            composable <Screen.PropertyDetails >{ backStackEntry ->
-
-                val propertyId = backStackEntry.toRoute<Screen.PropertyDetails>()
-                PropertyDetailsScreen(
-                    propertyId = propertyId.propertyId
-                )
-            }
-
-        }
-
-
-    }
-}
-
-
-
-@Composable
-fun MaskaniBottomBar() {
-    var selectedItem by remember { mutableStateOf(0) }
-    NavigationBar() {
-        NavigationBarItem(
-            selected = selectedItem == 0,
-            onClick = {
-                selectedItem = 0
-            },
-            icon = {
-
-                Icon(
-                    imageVector = Icons.Default.Home,
-                            contentDescription = "Home"
-                )
-            },
-            label = {}
-        )
-        NavigationBarItem(
-            selected = selectedItem == 1,
-            onClick = {
-                selectedItem = 1
-            },
-            icon = {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = "Search"
-                )
-            },
-            label = {}
-        )
-        NavigationBarItem(
-            selected = selectedItem == 2,
-            onClick = {
-                selectedItem = 2
-            },
-            icon = {
-                Icon(
-                    imageVector = Icons.Default.Favorite,
-                    contentDescription = "Save"
-                )
-            },
-            label = {}
-        )
-        NavigationBarItem(
-            selected = selectedItem == 3,
-            onClick = {
-                selectedItem = 3
-            },
-            icon = {
-                Icon(
-                    imageVector = Icons.Default.Person,
-                    contentDescription = "Profile"
-                )
-            },
-            label = {}
-        )
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "867663338342",
+    "project_id": "maskani-5e3e8",
+    "storage_bucket": "maskani-5e3e8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:867663338342:android:a08cb721ca4fed819306a7",
+        "android_client_info": {
+          "package_name": "com.spit91.maskani"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqI5DgBjm8_SdV50sfIdLH1D3iTu1DfYE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
