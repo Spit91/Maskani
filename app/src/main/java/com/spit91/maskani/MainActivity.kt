@@ -13,6 +13,8 @@ import com.spit91.maskani.presentation.auth.SignInScreen
 import com.spit91.maskani.presentation.auth.SignInViewModel
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.android.AndroidEntryPoint
+import com.spit91.maskani.presentation.navigation.MaskaniApp
+import com.spit91.maskani.ui.theme.MaskaniTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -31,20 +33,11 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     // 2. RENDER THE SCREEN: Inject the brain and pass the success callback logic
-                    SignInScreen(
-                        viewModel = signInViewModel,
-                        onAuthSuccess = {
-                            // Temporary action to prove authentication succeeded!
-                            Toast.makeText(
-                                this@MainActivity,
-                                "Welcome to Maskani! Login Successful.",
-                                Toast.LENGTH_LONG
-                            ).show()
-
-                            // Todo: In the next module, we will replace this toast with official Compose Navigation to your Property Feed Screen!
-                        }
-                    )
+                    MaskaniApp()
                 }
+            }
+            MaskaniTheme {
+                MaskaniApp()
             }
         }
     }

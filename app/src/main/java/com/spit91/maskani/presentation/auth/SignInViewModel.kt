@@ -13,7 +13,7 @@ import androidx.lifecycle.viewModelScope
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(private val signInUseCase: SignInUseCase): ViewModel(){
-    // A hidden, changeable stateFlow pipeline that only this ViewModel can modify
+
     private val _state = MutableStateFlow(SignInState())
     val state: StateFlow<SignInState> = _state.asStateFlow()
 
@@ -23,22 +23,16 @@ class SignInViewModel @Inject constructor(private val signInUseCase: SignInUseCa
     fun onPasswordChanged(newValue: String) {
         _state.update { it.copy(password = newValue, errorMessage = null) }
     }
-    /**
-     * Called by the UI when the user taps the "Sign In" button.
-     */
+
     fun signIn() {
         val currentEmail = _state.value.email
         val currentPassword = _state.value.password
 
-        // Step A: Update the checklist to show we are loading
         _state.update { it.copy(isLoading = true, errorMessage = null) }
 
-        // Step B: Launch an asynchronous background worker thread (Coroutine)
         viewModelScope.launch {
-            // Send credentials down into our Domain UseCase contract
             val result = signInUseCase(currentEmail, currentPassword)
 
-            // Step C: Check the results and update the checklist accordingly
             result.onSuccess { authUser ->
                 _state.update { it.copy(isLoading = false, isSuccess = true) }
             }.onFailure { exception ->

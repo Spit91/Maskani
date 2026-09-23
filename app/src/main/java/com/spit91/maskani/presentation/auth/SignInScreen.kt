@@ -21,6 +21,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material3.Icon
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.IconButton
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.material3.Surface
+
 
 
 @Composable
@@ -31,6 +44,9 @@ fun SignInScreen(
 ) {
 
     val state by viewModel.state.collectAsStateWithLifecycle()
+    var passwordVisible by remember { mutableStateOf(false) }
+    var password by remember { mutableStateOf("") }
+    var passwordTransformation = { PasswordVisualTransformation() }
 
     LaunchedEffect(state.isSuccess) {
         if (state.isSuccess) {
@@ -38,9 +54,9 @@ fun SignInScreen(
         }
     }
 
-    Box(
+    Surface(
         modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        color = MaterialTheme.colorScheme.background
     ) {
         Column(
             modifier = Modifier
@@ -58,6 +74,7 @@ fun SignInScreen(
 
 
             OutlinedTextField(
+                shape = RoundedCornerShape(16.dp),
                 value = state.email,
                 onValueChange = { viewModel.onEmailChanged(it) },
                 label = { Text("Email Address") },
@@ -68,15 +85,25 @@ fun SignInScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Password Input Field
+
             OutlinedTextField(
+                shape = RoundedCornerShape(16.dp),
                 value = state.password,
                 onValueChange = { viewModel.onPasswordChanged(it) },
                 label = { Text("Password") },
-                visualTransformation = PasswordVisualTransformation(),
+                visualTransformation = if (passwordVisible) androidx.compose.ui.text.input.VisualTransformation.None else passwordTransformation(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
-                enabled = !state.isLoading
+                enabled = !state.isLoading,
+                trailingIcon = {
+                    val image = if (passwordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
+                    val description = if (passwordVisible) "Hide password" else "Show password"
+
+                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                        Icon(imageVector = image, description)
+                    }
+                }
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -91,7 +118,7 @@ fun SignInScreen(
                 )
             }
 
-            // Submit Login Button
+
             Button(
                 onClick = { viewModel.signIn() }, // Triggers background network authentication flow
                 modifier = Modifier.fillMaxWidth().height(50.dp),

@@ -2,10 +2,18 @@ package com.spit91.maskani.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+// Primary Brand Colors (Trustworthy Emerald Green)
+val EmeraldPrimary = Color(0xFF0F5132)
+val EmeraldOnPrimary = Color(0xFFFFFFFF)
+val EmeraldContainer = Color(0xFFD1E7DD)
+val EmeraldOnContainer = Color(0xFF082A1A)
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+// Secondary/Accent Colors (Warm Clay/Gold tone)
+val OchreSecondary = Color(0xFFC5A059)
+val OchreOnSecondary = Color(0xFFFFFFFF)
+
+// Background & Surface Colors (Warm Clean Cream / Off-White)
+val CreamBackground = Color(0xFFFDFBF7)
+val CreamSurface = Color(0xFFFFFFFF)
+val CleanDarkText = Color(0xFF1C1B1F)
+val ErrorRed = Color(0xFFB3261E)
