@@ -45,7 +45,7 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.AlertDialog
 import androidx.compose.ui.unit.sp
-
+import androidx.compose.runtime.LaunchedEffect
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
@@ -57,12 +57,22 @@ fun ProfileScreen(
 ){
     //collect our UI state snapshots from the viewModel brain
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    LaunchedEffect(state.isEditingProfile){
+        if (state.isEditingProfile) {
+            onEditProfileClick()
+
+        } else {
+            viewModel.resetEditProfileState()
+        }
+    }
     //listener for when the logout sequence is complete
     androidx.compose.runtime.LaunchedEffect(state.isLoggedOut) {
         if (state.isLoggedOut){
             //trigger the logout sequence
             onLogoutSuccess()
         }
+
     }
 
     Scaffold(

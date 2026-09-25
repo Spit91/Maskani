@@ -9,11 +9,14 @@ sealed interface Screen {
     data object SignIn : Screen
     @Serializable data object MainGraph : Screen
 
+    @Serializable data object EditProfile : Screen
+
+    // Nested Bottom tab graph destinations
     @Serializable
     data object Home : Screen
     @Serializable data object Saved : Screen
 
     @Serializable data object Profile : Screen
 
-    @Serializable data object EditProfile : Screen
+
 }

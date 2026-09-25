@@ -25,7 +25,7 @@ import androidx.navigation.compose.rememberNavController
 import com.spit91.maskani.presentation.auth.home.HomeScreen
 import com.spit91.maskani.presentation.auth.home.SavedScreen
 import com.spit91.maskani.presentation.auth.home.ProfileScreen
-import com.spit91.maskani.presentation.auth.home.edit.EditProfileScreen
+
 // FIX: Renamed from NavigationItem to ContainerTab to resolve the "Redeclaration" conflict!
 private sealed class ContainerTab(
     val route: Screen,
@@ -43,8 +43,8 @@ fun MainContainerScreen(
     onRootLogoutTriggered: () -> Unit,
     onEditProfileClick: () -> Unit
 ) {
-    val bottomTabNavController = rememberNavController()
-    val navBackStackEntry by bottomTabNavController.currentBackStackEntryAsState()
+    val bottomTabNavController = rememberNavController() // remember the nav controller state
+    val navBackStackEntry by bottomTabNavController.currentBackStackEntryAsState() // get the current backstack entry
     val currentDestination = navBackStackEntry?.destination
 
     val bottomNavItems = listOf(
@@ -87,7 +87,6 @@ fun MainContainerScreen(
         ) {
             composable<Screen.Home> { HomeScreen() }
             composable<Screen.Saved> { SavedScreen() }
-
             composable<Screen.Profile> {
                 ProfileScreen(
                 onLogoutSuccess = {
@@ -95,16 +94,9 @@ fun MainContainerScreen(
                     onRootLogoutTriggered()
                 },
                     onEditProfileClick ={
-                        bottomTabNavController.navigate("edit_profile")
+                       onEditProfileClick()
                     }
             ) }
-            composable<Screen.EditProfile> {
-                EditProfileScreen(
-                    onNavigateBack = {
-                        bottomTabNavController.popBackStack()
-                    }
-                )
-            }
         }
     }
 }

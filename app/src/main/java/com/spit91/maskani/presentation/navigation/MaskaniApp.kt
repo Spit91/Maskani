@@ -9,9 +9,11 @@ import androidx.navigation.compose.rememberNavController
 import com.spit91.maskani.presentation.auth.SignInScreen
 import com.spit91.maskani.presentation.auth.SignInViewModel
 import com.spit91.maskani.presentation.auth.home.edit.EditProfileScreen
-
+import com.spit91.maskani.presentation.auth.home.ProfileViewModel
+import com.spit91.maskani.presentation.auth.home.edit.EditProfileViewModel
 @Composable
 fun MaskaniApp(modifier: Modifier = Modifier) {
+    // Global navigation controller
     val globalNavController = rememberNavController()
     NavHost(
         navController = globalNavController,
@@ -56,7 +58,11 @@ fun MaskaniApp(modifier: Modifier = Modifier) {
             )
         }
         composable<Screen.EditProfile> {
+            //dependency injection
+            val editViewModel: EditProfileViewModel = hiltViewModel()
             EditProfileScreen(
+                viewModel = editViewModel,
+
                 onNavigateBack = {
                     globalNavController.popBackStack()
                 }

@@ -46,7 +46,7 @@ import androidx.compose.material3.Surface
 fun EditProfileScreen(
     onNavigateBack: () -> Unit, // callback to navigate back to the previous screen
     modifier: Modifier = Modifier,
-    viewModel: EditProfileViewModel = hiltViewModel() // dependency injection: link the edit profile screen to the edit profile viewmodel
+    viewModel: EditProfileViewModel = hiltViewModel<EditProfileViewModel>() // dependency injection: link the edit profile screen to the edit profile viewmodel
 
 ){
     // collect the state stream from the viewmodel
@@ -67,8 +67,7 @@ fun EditProfileScreen(
                         fontWeight = FontWeight.Bold,
                         style = MaterialTheme.typography.titleLarge
                     )
-                },
-                windowInsets = androidx.compose.foundation.layout.WindowInsets(0, 0, 0, 0),
+                }
             )
         },
         bottomBar = {
@@ -76,7 +75,7 @@ fun EditProfileScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 24.dp)
-                    .padding(bottom = 24.dp, top = 8.dp),
+                    .padding(bottom = 50.dp, top = 8.dp),
                 color = Color.Transparent // Transparent background
             ) {
                 Button(
@@ -84,7 +83,7 @@ fun EditProfileScreen(
                     enabled = !state.isSaving,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(50.dp),
+                        .height(55.dp),
                     shape = RoundedCornerShape(24.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color(0xFF6200EE),
@@ -159,15 +158,16 @@ fun EditProfileScreen(
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
+                    .background(MaterialTheme.colorScheme.surface)
+                    .padding(horizontal = 4.dp),
+                shape = RoundedCornerShape(16.dp),
 
             ){
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(paddingValues)
-                        .padding(horizontal = 24.dp)
-                        .verticalScroll(rememberScrollState()),
+                        .padding(horizontal = 18.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ){
                   Row(
