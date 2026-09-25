@@ -11,6 +11,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
 import com.spit91.maskani.domain.model.User
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor (): ViewModel() {
@@ -61,5 +62,18 @@ class ProfileViewModel @Inject constructor (): ViewModel() {
             _state.update{it.copy(isLoading = false, isLoggedOut = true)}
         }
     }
+
+    fun onEditProfileClick (){
+        _state.update {currentState ->
+            currentState.copy(isEditingProfile = true)
+        }
+    }
+
+    fun resetEditProfileState(){
+        _state.update {currentState ->
+            currentState.copy(isEditingProfile = false)
+        }
+    }
+
 
 }

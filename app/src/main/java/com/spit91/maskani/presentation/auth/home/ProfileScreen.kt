@@ -39,10 +39,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.ButtonDefaults as ButtonDefault
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.foundation.clickable
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.AlertDialog
 import androidx.compose.ui.unit.sp
@@ -53,6 +52,7 @@ fun ProfileScreen(
     //dependency injection
     viewModel: ProfileViewModel = hiltViewModel(),
     onLogoutSuccess: () -> Unit,
+    onEditProfileClick: () -> Unit,
     modifier:Modifier = Modifier
 ){
     //collect our UI state snapshots from the viewModel brain
@@ -66,11 +66,10 @@ fun ProfileScreen(
     }
 
     Scaffold(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(top = 8.dp),
+
         topBar = {
-            TopAppBar(
+
+            androidx.compose.material3.CenterAlignedTopAppBar(
 
                title = {
                    Text(
@@ -78,7 +77,12 @@ fun ProfileScreen(
                        fontWeight = FontWeight.Bold,
 
                    )
-               }
+               },
+                colors = androidx.compose.material3.TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.background
+                ),
+                //ignore the default system status bar spacing block
+                windowInsets = androidx.compose.foundation.layout.WindowInsets(0,0,0,0)
             )
         }
     ) {paddingValues ->
@@ -121,7 +125,7 @@ fun ProfileScreen(
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(10.dp))
 
                     Text(
                         text = state.user?.name ?: "Maskani User",
@@ -131,7 +135,7 @@ fun ProfileScreen(
                             .fillMaxWidth(),
                         textAlign = TextAlign.Center
                     )
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
 
                     Text(
                         text = state.user?.email ?:"Maskani User",
@@ -148,7 +152,7 @@ fun ProfileScreen(
                         enabled = false,
                         modifier = Modifier
                             .height(50.dp),
-                        shape = RoundedCornerShape(12.dp),
+                        shape = RoundedCornerShape(24.dp),
                         colors = ButtonDefault.buttonColors(
                             containerColor = androidx.compose.ui.graphics.Color(0xFF6200EE),
                             contentColor= androidx.compose.ui.graphics.Color.Black
@@ -176,14 +180,25 @@ fun ProfileScreen(
                         value = state.user?.email ?:"Maskani User"
                     )
 
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
 
                     ProfileInfoField(
                         icon = androidx.compose.material.icons.Icons.Default.Phone,
                         label = "Contact",
                         value =  state.user?.contact ?:"Maskani User"
                     )
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    EditProfileInfoField(
+                        icon = androidx.compose.material.icons.Icons.Default.Edit,
+                        label = "Edit Profile",
+                        value = "Update your name and contact details",
+                        modifier = Modifier.clickable {
+                            viewModel.onEditProfileClick()
+                        }
+                    )
+
+
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -228,6 +243,55 @@ fun ProfileScreen(
                 }
             }
         )
+    }
+
+}
+
+@Composable
+fun EditProfileInfoField(
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    label: String,
+    value: String,
+    modifier: Modifier = Modifier
+){
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.outline.copy(alpha = 0.4f),
+                shape = RoundedCornerShape(16.dp)
+            )
+            .padding(horizontal = 16.dp, vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ){
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.primary,
+
+            modifier =Modifier.size(24.dp)
+        )
+        Spacer(modifier = Modifier.width(16.dp))
+
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.Center
+        ){
+            Text(
+                text = label,
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurface,
+                fontWeight = FontWeight.Medium
+            )
+            Spacer(modifier = Modifier.height(2.dp))
+            Text(
+                text = value,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f),
+                fontWeight = FontWeight.Normal
+            )
+        }
     }
 
 }
@@ -282,5 +346,6 @@ fun ProfileInfoField(
             )
 
         }
+
     }
 }

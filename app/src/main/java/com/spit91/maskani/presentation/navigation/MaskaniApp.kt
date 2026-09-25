@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.spit91.maskani.presentation.auth.SignInScreen
 import com.spit91.maskani.presentation.auth.SignInViewModel
+import com.spit91.maskani.presentation.auth.home.edit.EditProfileScreen
 
 @Composable
 fun MaskaniApp(modifier: Modifier = Modifier) {
@@ -46,8 +47,20 @@ fun MaskaniApp(modifier: Modifier = Modifier) {
                             inclusive = true
                         }
                     }
+                },
+                onEditProfileClick = {
+                    globalNavController.navigate(Screen.EditProfile)
+                }
+
+
+            )
+        }
+        composable<Screen.EditProfile> {
+            EditProfileScreen(
+                onNavigateBack = {
+                    globalNavController.popBackStack()
                 }
             )
         }
     }
-} // Added the missing closing curly brace here
+}
