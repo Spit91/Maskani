@@ -26,9 +26,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
 import com.spit91.maskani.domain.model.Property
 import com.spit91.maskani.domain.model.UnitType
+import androidx.compose.ui.layout.ContentScale
+import coil.compose.AsyncImage
 
 
 @Composable
@@ -50,6 +51,7 @@ fun PropertyCard(
                 AsyncImage(
                     model = property.imageUrls.firstOrNull(),
                     contentDescription = property.title,
+                    contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(200.dp)
@@ -92,7 +94,7 @@ fun PropertyCard(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = unitTypeLabel(property.unitType),
+                        text = unitTypeLabel(property.unitType as String),
                         style = MaterialTheme.typography.labelLarge,
                         color = MaterialTheme.colorScheme.primary
                     )
