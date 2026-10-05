@@ -9,9 +9,8 @@ data class Property(
     val location: String = "",
     val imageUrls: List<String> = emptyList(),
     val status: String = "draft",
-) {
     val unitType: Any
-}
+)
 
 object UnitType {
     const val APARTMENT = "apartment"
@@ -28,7 +27,7 @@ object UnitType {
 
 object PropertyStatus{
     const val DRAFT = "draft"
-    const val PESNDING_REVIEW = "pending_review"
+    const val PENDING_REVIEW = "pending_review"
     const val PUBLISHED = "published"
     const val REJECTED = "rejected"
 }
