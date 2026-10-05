@@ -59,10 +59,9 @@ fun ProfileScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(state.isEditingProfile){
-        if (state.isEditingProfile) {
+        if(state.isEditingProfile){
             onEditProfileClick()
-
-        } else {
+            //reset it right after using it
             viewModel.resetEditProfileState()
         }
     }
@@ -237,23 +236,6 @@ fun ProfileScreen(
                 }
             }
         }
-    if (state.showLogoutDialog){
-        AlertDialog(
-            onDismissRequest = { viewModel.setLogoutDialogVisible(false)},
-            title = {Text("Log Out")},
-            text = {Text("Are you sure you want to log out?")},
-            confirmButton = {
-                TextButton(onClick = { viewModel.confirmLogout()}){
-                    Text("Yes, Log Out", color = MaterialTheme.colorScheme.error)
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { viewModel.setLogoutDialogVisible(false)}) {
-                    Text("Cancel")
-                }
-            }
-        )
-    }
 
 }
 
@@ -358,4 +340,5 @@ fun ProfileInfoField(
         }
 
     }
+
 }

@@ -17,20 +17,18 @@ fun MaskaniApp(modifier: Modifier = Modifier) {
     val globalNavController = rememberNavController()
     NavHost(
         navController = globalNavController,
-        startDestination = Screen.SignIn,
+        startDestination = Screen.AuthGraph,
         modifier = modifier
     ) {
         // 1. Sign In Destination
-        composable<Screen.SignIn> {
-            //dependency injection
-            val viewModel: SignInViewModel = hiltViewModel()
+        composable<Screen.AuthGraph> {
 
-            SignInScreen(
-                viewModel = viewModel,
+            AuthContainer(
+
                 onAuthSuccess = {
                     // Navigate to the Main Graph shell and clear the SignIn screen from history stack
                     globalNavController.navigate(Screen.MainGraph) {
-                        popUpTo(Screen.SignIn) { inclusive = true }
+                        popUpTo(Screen.AuthGraph) { inclusive = true }
                     }
                 }
             )
@@ -43,7 +41,7 @@ fun MaskaniApp(modifier: Modifier = Modifier) {
             MainContainerScreen(
                 onRootLogoutTriggered = {
                     // Navigate to the SignIn screen and clear the MainGraph from history stack
-                    globalNavController.navigate(Screen.SignIn) {
+                    globalNavController.navigate(Screen.AuthGraph) {
                         // Clear the MainGraph from the backstack
                         popUpTo(Screen.MainGraph) {
                             inclusive = true

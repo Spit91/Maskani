@@ -96,6 +96,7 @@ fun MainContainerScreen(
                     onEditProfileClick ={
                        onEditProfileClick()
                     }
+
             ) }
         }
     }

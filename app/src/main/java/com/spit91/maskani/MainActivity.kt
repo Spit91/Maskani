@@ -1,7 +1,6 @@
 package com.spit91.maskani
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -9,12 +8,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.spit91.maskani.presentation.auth.SignInScreen
 import com.spit91.maskani.presentation.auth.SignInViewModel
-import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.android.AndroidEntryPoint
 import com.spit91.maskani.presentation.navigation.MaskaniApp
-import com.spit91.maskani.ui.theme.MaskaniTheme
+import com.spit91.maskani.ui.theme.HomeSpotTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -36,7 +33,7 @@ class MainActivity : ComponentActivity() {
                     MaskaniApp()
                 }
             }
-            MaskaniTheme {
+            HomeSpotTheme {
                 MaskaniApp()
             }
         }

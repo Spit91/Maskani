@@ -20,7 +20,7 @@ private val MaskaniColorScheme = lightColorScheme(
 )
 
 @Composable
-fun MaskaniTheme(
+fun HomeSpotTheme(
     darkTheme: Boolean = isSystemInDarkTheme(), // Defaults to system setting
     content: @Composable () -> Unit
 ) {

@@ -56,6 +56,8 @@ fun EditProfileScreen(
     LaunchedEffect(state.isSavingSuccess) {
         if (state.isSavingSuccess) {
             onNavigateBack()
+            //clear the save success flag
+            viewModel.resetSaveState()
         }
     }
     Scaffold(

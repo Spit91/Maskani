@@ -59,16 +59,32 @@ class EditProfileViewModel @Inject constructor(): ViewModel() {
         viewModelScope.launch {
             _state.update {it.copy(isSaving = true)}
 
-            //simulate a network database save delay
-            kotlinx.coroutines.delay(1000)
+            try{
+                val currentName = _state.value.nameInput
+                val currentContact = _state.value.contactInput
 
-            // update state to confirm success so navigation routes can pop backwards
-            _state.update{currentState ->
-                currentState.copy(
-                    isSaving = false,
-                    isSavingSuccess = true
-                )
+                // simulate a network database save delay
+                kotlinx.coroutines.delay(1000)
+
+                //update state to confirm success so navigation routes can pop backwards
+
+                _state.update {currentState ->
+                    currentState.copy(
+                        isSaving = false,
+                        isSavingSuccess = true
+                    )
+                }
+            } catch (e: Exception) {
+                _state.update {it.copy (isSaving = false)}
             }
+        }
+    }
+    fun resetSaveState(){
+        _state.update { currentState ->
+            currentState.copy(
+                isSavingSuccess = false,
+                isSaving = false
+            )
         }
     }
 }

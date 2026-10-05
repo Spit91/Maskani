@@ -73,6 +73,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.navigation.compose)
     implementation("androidx.compose.material:material-icons-extended")
+    implementation("io.coil-kt.coil3:coil-network-okhttp:3.6.0")
 
     // Lifecycle Extensions for stateflow rendering
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
@@ -97,6 +98,7 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:34.19.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-firestore")
 
     // Unit & UI Testing Modules
     testImplementation(libs.junit)

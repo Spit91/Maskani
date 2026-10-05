@@ -6,5 +6,7 @@ data class EditProfileState(
     val nameInput: String = "",
     val contactInput: String = "",
     val errorMessage: String? = null,
-    val isSavingSuccess: Boolean = false
+    val isSavingSuccess: Boolean = false,
+    val currentName: String = "",
+    val currentContact: String = ""
 )
