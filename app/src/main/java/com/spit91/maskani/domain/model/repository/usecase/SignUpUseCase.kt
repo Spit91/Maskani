@@ -10,12 +10,18 @@ class SignUpUseCase @Inject constructor(
     private val authRepository: AuthRepository,
     private val userRepository: UserRepository
 ){
-    suspend operator fun invoke(email: String, password: String, name: String): Result<AuthUser> {
+    suspend operator fun invoke(email: String, password: String, name: String, confirmPassword: String): Result<AuthUser> {
         if (email.isBlank() || password.isBlank() || name.isBlank()) {
             return Result.failure(IllegalArgumentException("Name, email, and password cannot be empty"))
         }
         if (password.length < 8) {
             return Result.failure(IllegalArgumentException("Password must be at least 8 characters"))
+        }
+
+        // check if passwords match
+
+        if (password != confirmPassword) {
+            return Result.failure(IllegalArgumentException("Password do not match"))
         }
 
         //create the Auth account.If this fails, stop and pass the error up.

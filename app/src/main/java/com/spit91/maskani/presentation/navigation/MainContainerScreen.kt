@@ -41,7 +41,9 @@ private sealed class ContainerTab(
 fun MainContainerScreen(
     //make a callback to the root navigation controller
     onRootLogoutTriggered: () -> Unit,
-    onEditProfileClick: () -> Unit
+    onEditProfileClick: () -> Unit,
+    onPropertyClick: (String) -> Unit = {}
+
 ) {
     val bottomTabNavController = rememberNavController() // remember the nav controller state
     val navBackStackEntry by bottomTabNavController.currentBackStackEntryAsState() // get the current backstack entry
@@ -57,7 +59,7 @@ fun MainContainerScreen(
         bottomBar = {
             NavigationBar {
                 bottomNavItems.forEach { item ->
-                    // Type-safe matching check using modernhasRoute feature
+                    // Type-safe matching check using modern has-Route feature
                     val isSelected = currentDestination?.hierarchy?.any {
                         it.hasRoute(item.route::class)
                     } == true
@@ -85,8 +87,8 @@ fun MainContainerScreen(
             startDestination = Screen.Home,
             modifier = Modifier.fillMaxSize().padding(paddingValues)
         ) {
-            composable<Screen.Home> { HomeScreen() }
-            composable<Screen.Saved> { SavedScreen() }
+            composable<Screen.Home> { HomeScreen(onPropertyClick = onPropertyClick) }
+            composable<Screen.Saved> { SavedScreen(onPropertyClick = onPropertyClick) }
             composable<Screen.Profile> {
                 ProfileScreen(
                 onLogoutSuccess = {

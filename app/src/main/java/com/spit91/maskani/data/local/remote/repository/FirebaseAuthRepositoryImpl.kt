@@ -21,9 +21,8 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
     private val firebaseAuth: FirebaseAuth
 ) : AuthRepository {
 
-    // 1. REAL-TIME FLOW: Streams user login state shifts automatically
     override val currentUser: Flow<AuthUser?> = callbackFlow {
-        //firebase calls this block automatically every time the auth state changes
+        //call this block  every time the auth state changes
         val listener = FirebaseAuth.AuthStateListener { auth ->
             // converts FirebaseUser object to your app's AuthUser data class
             val firebaseUser = auth.currentUser
@@ -75,7 +74,7 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
     // 3. SIGN UP: Creates a new user profile on Firebase servers
    override suspend fun signUpWithEmail(email: String, password: String, name: String): kotlin.Result<AuthUser> {
        return try {
-           val result = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
+           val result = firebaseAuth.createUserWithEmailAndPassword(email, password,).await()
            val user = result.user ?: return kotlin.Result.failure(Exception("User generation failed."))
            //save the name on to the auth account itself.
            // if this fails, sign up still succeeds because the name is also saved in the firestore profile
@@ -88,8 +87,18 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
            } catch (e: CancellationException) {
                throw e
            } catch (e: Exception) {
-               // ignore
+               // Name update failure doesn't stop sign up: ignore
            }
+
+           // send verification email
+           try {
+               user.sendEmailVerification().await()
+           } catch (e: CancellationException) {
+               throw e
+           } catch (e: Exception) {
+               return Result.failure(e)
+           }
+           // return to your application AuthUser
            kotlin.Result.success(
                AuthUser(
                    id = user.uid,
@@ -103,6 +112,22 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
            kotlin.Result.failure(e)
        }
    }
+
+    override suspend fun sendEmailVerification(): kotlin.Result<Unit> {
+        return try {
+            val user = firebaseAuth.currentUser
+                ?: return Result.failure(
+                    Exception("No authenticated user found.")
+                )
+            user.sendEmailVerification().await()
+
+            Result.success(Unit)
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 
     // 5. FORGOT PASSWORD: Sends a reset link to the user's email via Firebase
     override suspend fun sendPasswordResetEmail(email: String): kotlin.Result<Unit> {

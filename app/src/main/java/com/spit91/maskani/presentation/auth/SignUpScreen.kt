@@ -43,6 +43,7 @@ fun SignUpScreen(
 ){
     val state by viewModel.state.collectAsStateWithLifecycle()
     var passwordVisible by remember {mutableStateOf(false)}
+    var confirmPasswordVisible by remember {mutableStateOf(false)}
 
     LaunchedEffect(state.isSuccess){
         if (state.isSuccess){
@@ -111,6 +112,30 @@ fun SignUpScreen(
 
                     IconButton(onClick = {passwordVisible = !passwordVisible}) {
                        Icon(imageVector = image, description)
+                    }
+                }
+
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+
+            OutlinedTextField(
+                shape = RoundedCornerShape(16.dp),
+                value = state.confirmPassword,
+                onValueChange = { viewModel.onConfirmPasswordChanged(it)},
+                label = {Text("Confirm password")},
+                visualTransformation = if( confirmPasswordVisible) androidx.compose.ui.text.input.VisualTransformation.None else PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
+                enabled = !state.isLoading,
+                trailingIcon = {
+                    val image = if(confirmPasswordVisible) {
+                        Icons.Filled.Visibility
+                    } else Icons.Filled.VisibilityOff
+                    val description = if(confirmPasswordVisible) "Hide password" else "Show password"
+
+                    IconButton(onClick = {confirmPasswordVisible = !confirmPasswordVisible}) {
+                        Icon(imageVector = image, description)
                     }
                 }
 

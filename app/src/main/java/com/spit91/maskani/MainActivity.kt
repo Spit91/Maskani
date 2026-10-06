@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import com.spit91.maskani.presentation.auth.SignInViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import com.spit91.maskani.presentation.navigation.MaskaniApp
-import com.spit91.maskani.ui.theme.HomeSpotTheme
+import com.spit91.maskani.ui.theme.MaskaniTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
                     MaskaniApp()
                 }
             }
-            HomeSpotTheme {
+            MaskaniTheme {
                 MaskaniApp()
             }
         }
